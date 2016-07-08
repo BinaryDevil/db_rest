@@ -61,17 +61,26 @@ public class NetFlowEvents {
     @GET
     @Path("/events")
     @Produces("application/json")
-    public Response getAllEvents(@QueryParam("startTs") String startTimestamp) {
+    public Response getAllEvents(@QueryParam("eventid") String eventID,
+                                 @QueryParam("startTs") String startTimestamp) {
 
         StringBuilder query = new StringBuilder();
 
+        if (eventID != null && eventID.equals("null"))
+            eventID = null;
         if (startTimestamp != null && startTimestamp.equals("null"))
             startTimestamp = null;
 
-        query.append("SELECT * FROM netflow_events");
+        query.append("SELECT * FROM netflow_events\n");
+        if (eventID != null || startTimestamp != null)
+            query.append("      WHERE\n");
+        if (eventID != null) {
+            eventID = "'" + eventID + "'";
+            query.append("      event_id = " + eventID + "\n");
+        }
         if (startTimestamp != null) {
             startTimestamp = "'" + startTimestamp + "'";
-            query.append("      WHERE event_timestamp > " + startTimestamp);
+            query.append("      AND event_timestamp > " + startTimestamp + "\n");
         }
 
         System.out.println("QUERY: \n" + query.toString() + "\n");
