@@ -9,5 +9,12 @@
 		driverClassName="org.mariadb.jdbc.Driver"
 		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" />
 		<!--  factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"  /> -->
-	
+	<Resource name="jdbc/PostgreSQL" auth="Container" type="javax.sql.DataSource"
+			  maxTotal="60" minIdle="0" maxIdle="10"
+			  validationQuery="SELECT 1" testOnBorrow="true" testWhileIdle="true"
+			  timeBetweenEvictionRunsMillis="1000" minEvictableIdleTimeMillis="60000"
+			  logAbandoned="true"
+			  username="tara" url="jdbc:postgresql://172.29.105.126:5029/tara"
+			  driverClassName="org.postgresql.Driver"
+			  factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" />
 </Context>
